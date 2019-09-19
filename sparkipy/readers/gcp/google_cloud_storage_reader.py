@@ -1,4 +1,4 @@
-from readers.areader import Areader
+from sparkipy.readers.areader import Areader
 
 
 class CloudStorageReader(Areader):

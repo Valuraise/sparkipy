@@ -8,7 +8,12 @@ from pyspark.sql import SparkSession
 class Runner:
     def __init__(self, job_name, job_args):
         self.job_name = job_name
-        self.job_args = job_args
+        args_dict = {}
+        if job_args is not None:
+            for kv in job_args.split(','):
+                key, value = kv.split("=")
+                args_dict[key] = value
+        self.job_args = args_dict
         self.spark = SparkSession \
             .builder \
             .appName('Sparkipy_Job_{}'.format(self.job_name)) \
@@ -21,9 +26,9 @@ class Runner:
         print(
             "Running job {} with args {}".format(self.job_name, self.job_args))
         job_class = getattr(
-            importlib.import_module("jobs.{}".format(self.job_name)),
+            importlib.import_module("sparkipy.jobs.{}".format(self.job_name)),
             self.job_name)
-        print("Job {} found,starting ... ".format(job_name))
+        print("Job {} found,starting ... ".format(self.job_name))
         job = job_class(self.spark, self.job_args)
         # run the job
         job.run()
@@ -66,10 +71,4 @@ def parse_args(args):
 
 if __name__ == '__main__':
     args = parse_args(args=sys.argv[1:])
-    job_name = args.job
-    job_args = {}
-    if args.args is not None:
-        for kv in args.args.split(','):
-            key, value = kv.split("=")
-            job_args[key] = value
-    Runner(job_name, job_args).start()
+    Runner(args.job, args.args).start()

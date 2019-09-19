@@ -1,8 +1,8 @@
 from operator import add
 from random import random
 
-from jobs.ajob import AJob
-from utils.utils import SparkLogger
+from sparkipy.jobs.ajob import AJob
+from sparkipy.utils.utils import SparkLogger
 
 
 class PiJob(AJob):

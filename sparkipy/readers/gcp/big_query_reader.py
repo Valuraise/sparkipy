@@ -1,5 +1,5 @@
 from __future__ import absolute_import
-from readers.areader import Areader
+from sparkipy.readers.areader import Areader
 
 
 class BigQueryReader(Areader):
