@@ -45,7 +45,7 @@ def job_factory(spark, name, args):
     """
     print("Running job {} with args {}".format(name, args))
     job_class = getattr(
-        importlib.import_module("sparkipy.jobs.{}".format(name)),
+        importlib.import_module("jobs.{}".format(name)),
         name)
     return job_class(spark, args)
 
@@ -58,6 +58,7 @@ def start(job_name, job_args):
         .getOrCreate()
     # create a job instance dynamically
     job = job_factory(spark, job_name, job_args)
+    print("Job {} found,starting ... ".format(job_name))
     # run the job
     job.run()
     # Clean all temporary resources (readers for instance create temporary
